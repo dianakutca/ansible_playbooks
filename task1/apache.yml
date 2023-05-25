@@ -1,0 +1,22 @@
+- name: Installs packages
+  hosts: all 
+  user: root
+  tasks:
+  - name: install list of packages
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - unzip
+    - wget
+    - httpd
+  - name: Start service httpd and enable
+    service:
+      name: httpd
+      state: started
+      enabled: yes
+  - name: Unarchive a file that needs to be downloaded 
+    unarchive:
+      src: https://www.free-css.com/assets/files/free-css-templates/download/page291/dozecafe.zip
+      dest: /var/www
+      remote_src: yes
