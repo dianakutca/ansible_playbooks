@@ -1,0 +1,19 @@
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: install all necessarily packages for python app
+    import_role: 
+      name: python_packages
+  - name: Clone repositories
+    import_role:
+      name: git_clone
+
+  - name: install requirements for Flaskex
+    pip:
+      requirements: /opt/Flaskex/requirements.txt 
+  - name: Start App
+    shell: "pkill app.py; nohup python app.py &"
+    args:
+      chdir: /opt/Flaskex
+  
