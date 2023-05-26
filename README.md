@@ -1,3 +1,5 @@
+ # Ansible
+ ![Ansible](/images/Ansible-Logo-720x210.png)
  ### What is ansible?
 
 Ansible is an orchestration tool that automates configuration managment, application deployment and other IT needs.
