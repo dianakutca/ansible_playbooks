@@ -1,7 +1,19 @@
 - hosts: all
   become: yes
-  vars:
-    git_url: https://github.com/ikambarov/Flaskex
-    dest_folder: /opt/flaskex
-  roles:
-    - flaskex 
+  tasks:
+
+  - name: Install All required packagess for python2 app
+    import_role:
+      name: requirements
+  - name: Git clone the application
+    import_role:
+      name: git_clone
+
+  - name: install requirements for application
+    pip:
+      requirements: /opt/flaskex/requirements.txt
+  - name: Start App
+
+    shell: "pkill app.py; nohup python app.py &"
+    args:
+      chdir: /opt/flaskex

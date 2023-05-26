@@ -1,0 +1,8 @@
+galaxy_info:
+  author: Diana Kutsa
+  description: DevOPs
+  galaxy_tags: 
+  - role
+  - install Flaskex
+  - python app
+dependencies: []

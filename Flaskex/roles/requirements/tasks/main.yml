@@ -1,0 +1,17 @@
+---
+  - name: install list of packages
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items:
+    - git
+    - epel-release
+
+  - name: Check if pip is installed
+    stat:
+      path: /usr/bin/pip
+    register: pip_installed
+  - name: Install pip if not installed
+    shell: "curl -s https://bootstrap.pypa.io/pip/2.7/get-pip.py | python"
+    when: not pip_installed.stat.exists
+    

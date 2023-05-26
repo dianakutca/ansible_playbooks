@@ -1,0 +1,44 @@
+- name: Installs packages
+  hosts: all
+  become: yes
+  tasks:
+  - name: install git
+    yum:
+      name: git
+      state: present
+  - name: git clone repo
+    git:
+      repo: https://github.com/spring-projects/spring-petclinic.git
+      dest: /opt/petclinic
+  - name: Unzip java and download
+    unarchive:
+      src: https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
+      dest: /opt/
+      remote_src: yes
+  - name: run few commands
+    shell: alternatives --install /usr/bin/java java /opt/jdk-17.0.7/bin/java 99
+    shell: alternatives --install /usr/bin/javac java /opt/jdk-17.0.7/bin/javac 99 
+  - name: Check if already compiled and packaged
+    command: './mvnw package'
+    args:
+      chdir: /opt/petclinic
+    register: compile_result
+    changed_when: false
+#  - name: Run Maven Wrappen
+ #   command: './mvnw package'
+ #   args:
+ #     chdir: /opt/petclinic
+ #     creates: /opt/petclinic/target
+  - name: Display compile_result output
+    debug:
+      var: compile_result.stdout
+
+  - name: Check if Java process is running
+    shell: "pgrep -c java"
+    register: process_count
+    changed_when: false
+    failed_when: process_count.rc > 1
+
+  - name: Run Java script in background
+    shell: "nohup java -jar /opt/petclinic/target/*.jar > /dev/null 2>&1 &"
+    when: process_count.stdout|int < 1
