@@ -1,0 +1,12 @@
+---
+- name: install list of packages
+  yum:
+    name:
+      - git
+      - maven
+    state: present
+    
+- name: install Java17 , using rpm
+  yum:
+    name: https://download.oracle.com/java/20/latest/jdk-20_linux-x64_bin.rpm
+    

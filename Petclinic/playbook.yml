@@ -1,0 +1,21 @@
+- hosts: all
+  become: yes
+  tasks:
+
+  - name: install all necessarily packages for java app
+    import_role: 
+      name: java_packages
+  - name: Clone repositories
+    import_role:
+      name: git_clone
+
+  - name: Run Maven Wrapper
+    shell: "./mvnw package"
+    args:
+      chdir: /opt/Petclinic/
+      creates: /opt/Petclinic/target
+
+  - name: Start App
+    shell: 'pkill java; sleep 3; nohup java -jar /opt/Petclinic/target/spring-petclinic-2.3.1.BUILD-SNAPSHOT.jar &'
+    args:
+      chdir: /opt/Petclinic

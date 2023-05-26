@@ -1,0 +1,3 @@
+---
+get_url: https://github.com/dianakutca/spring-petclinic
+dest_folder: /opt/Petclinic

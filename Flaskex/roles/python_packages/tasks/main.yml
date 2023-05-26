@@ -10,6 +10,8 @@
    command: pip --version
    register: pip_check
    changed_when: false
+   ignore_errors: true
+
  - name: Install pip for Python 2
-   shell: "curl -s https://bootstrap.pypa.io/get-pip.py | python"
+   shell: "curl -s https://bootstrap.pypa.io/pip/2.7/get-pip.py | python"
    when: pip_check.rc != 0

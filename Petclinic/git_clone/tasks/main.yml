@@ -1,0 +1,5 @@
+---
+- name : Git clone the repo
+  git:
+    repo: "{{ get_url }}"
+    dest: "{{ dest_folder }}"
